@@ -23,9 +23,9 @@ fi
 echo "setting aws configuration"
 
 aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" --profile user2 && aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY" --profile user2 && aws configure set region "$AWS_REGION" --profile user2 && aws configure set output "text" --profile user2
-
+export AWS_PROFILE=user2
 echo "###################################"
-echo "caller identity: $(aws sts get-caller-identity --profile user2)"
+echo "caller identity: $(aws sts get-caller-identity)"
 echo "###################################"
 
 echo "Installing kubectl"
@@ -45,8 +45,10 @@ echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
 # Verify the kubectl version
 echo "###################################"
 echo "kubectl version: $(kubectl version --short --client)"
-echo "###################################"
-
+echo -e "###################################\n"
+echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+echo "You must use a kubectl version that is within one minor version difference of your Amazon EKS cluster control plane. For example, a 1.21 kubectl client works with Kubernetes 1.20, 1.21 and 1.22 clusters"
+echo -e "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 echo "Installing eksctl"
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
