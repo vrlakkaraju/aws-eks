@@ -14,7 +14,12 @@ eksctl utils associate-iam-oidc-provider --cluster veks --region us-east-1 --app
 
 # Create an ssh keypair and import it into AWS to be used as ssh keypair to login to EKS nodes
 echo -e "\nCreate and import ssh keypair\n"
-ssh-keygen -t rsa -C "v-key" -f ~/.ssh/v-key -q -N ""
+if [ -f ~/.ssh/v-key ] && [ -f ~/.ssh/v-key.pub ]; then
+	echo "ssh keypair already exists so using the existing ssh key"
+else
+	echo "There is no pre-existing ssh keypair so creating a new pair"
+	ssh-keygen -t rsa -C "v-key" -f ~/.ssh/v-key -q -N ""
+fi
 aws ec2 import-key-pair --region us-east-1 --key-name v-key --public-key-material fileb://$HOME/.ssh/v-key.pub
 
 # Create node group with additional permissions in public subnets
