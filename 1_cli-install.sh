@@ -32,7 +32,9 @@ echo "Installing kubectl"
 cd ..
 mkdir kubectlcli
 cd kubectlcli
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#Temporarily setting kubectl version to 1.23.6 as I had issues with 1.24
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Provide execute permissions
